@@ -1,0 +1,127 @@
+ 1  ufw status
+    2  [200~sudo ufw enable
+    3  ~sudo ufw enable
+    4  ufw enable
+    5  ufw status
+    6  sudo nano /etc/ssh/sshd_config
+    7  sudo systemctl restart ssh
+    8  ufw limit 2222
+    9  ufw limit 22
+   10  ufw limit 22/tcp
+   11  ufw status
+   12  ufw delete allow 22
+   13  ufw delete limit 22
+   14  ufw status
+   15  sudo apt update
+   16  [200~sudo apt install nginx
+   17  sudo apt install nginx
+   18  sudo systemctl start nginx
+   19  sudo systemctl enable nginx
+   20  sudo systemctl status nginx
+   21  sudo ufw allow 'Nginx Full'
+   22  cd /var/www/
+   23  ls
+   24  cd html
+   25  ls
+   26  cd /etc/nginx/sites-available/
+   27  ls
+   28  nano default 
+   29  cd /var/www
+   30  ls
+   31  mkdir ml.ckartisan.com
+   32  cd ml.ckartisan.com/
+   33  python
+   34  python3
+   35  python3 -m venv ckartisan-env
+   36  apt insatll python3.12-venv
+   37  apt install python3.12-venv
+   38  python3 -m venv ckartisan-env
+   39  cd ckartisan-env/
+   40  git clone https://github.com/arc6828/ckartisan-ml
+   41  cd ckartisan-ml/
+   42  cd ..
+   43  source bin/activate
+   44  cd ckartisan-ml/
+   45  pip install torch
+   46  pip install transformers spacy langdetect pythainlp sentencepiece
+   47  pip install flask gunicorn
+   48  ls
+   49  sudo nano /etc/nginx/sites-available/flask-app
+   50  sudo ln -s /etc/nginx/sites-available/flask-app /etc/nginx/sites-enabled/flask-app
+   51  nginx -t
+   52  sudo service nginx restart
+   53  sudo nano /etc/nginx/sites-available/flask-app
+   54  nano /etc/systemd/system/flask_app.service
+   55  cd ..
+   56  cd bin
+   57  ls
+   58  cd ..
+   59  cd ckartisan-env/
+   60  nano /etc/systemd/system/flask_app.service
+   61  sudo systemctl start flask_app
+   62  sudo systemctl enable flask_app
+   63  sudo systemctl status flask_app
+   64  cd ckartisan-ml/
+   65  gunicorn --bind 127.0.0.1:5000 app:app
+   66  sudo systemctl restart nginx
+   67  gunicorn --bind 127.0.0.1:5000 app:app
+   68  sudo systemctl status flask_app
+   69  sudo nano /etc/nginx/sites-available/flask-app
+   70  nano /etc/systemd/system/flask_app.service
+   71  sudo systemctl restart flask_app
+   72  sudo systemctl stop flask_app
+   73  systemctl daemon-reload
+   74  sudo systemctl start flask_app
+   75  sudo systemctl status flask_app
+   76  cd ..
+   77  ls
+   78  ls -l
+   79  chmod 755 -R ckartisan-env/
+   80  ls -l
+   81  systemctl daemon-reload
+   82  sudo systemctl restart flask_app
+   83  sudo systemctl status flask_app
+   84  cd ..
+   85  ls
+   86  mkdir pythainlp-data
+   87  ls
+   88  ls -l
+   89  cd ..
+   90  ls -l
+   91  cd ..
+   92  cd /var/www
+   93  ls
+   94  cd ml.ckartisan.com/
+   95  cd ckartisan-env/
+   96  source bin/activate
+   97  sudo systemctl restart flask_app
+   98  sudo systemctl status flask_app
+   99  cd ..
+  100  chmod u+w -R pythainlp-data/
+  101  ls
+  102  ls -l
+  103  chown -R www-data pythainlp-data/
+  104  chmod -R 755 pythainlp-data/
+  105  chmod -R 755 ml.ckartisan.com/
+  106  chown -R www-data ml.ckartisan.com/
+  107  sudo systemctl restart flask_app
+  108  sudo systemctl status flask_app
+  109  cd ..
+  110  chown -R www-data www
+  111  sudo systemctl restart flask_app
+  112  sudo systemctl status flask_app
+  113  cd www
+  114  ls
+  115  cd pythainlp-data/
+  116  ls
+  117  cd ..
+  118  ls
+  119  cd pythainlp-data/
+  120  ls
+  121  nano db.json 
+  122  cd ..
+  123  sudo apt install certbot python3-certbot-nginx
+  124  certbot --nginx -d ml.ckartisan.com
+  125  gunicorn
+  126  history
+  127  history > /var/www/html/history.txt
