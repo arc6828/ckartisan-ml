@@ -39,3 +39,27 @@ def test_post():
     # Perform NER
     data = perform_ner_based_on_language(text_query)
     return jsonify(data)
+
+@ner_bp.route('/text', methods=['POST'])
+def text():
+    # รับ JSON จากคำขอ
+    data = request.get_json()
+    
+    # ตรวจสอบข้อมูล
+    if not data:
+        return jsonify({"error": "No JSON provided"}), 400
+
+    # ทำบางอย่างกับข้อมูล
+    # name = data.get("name", "Unknown")
+    # age = data.get("age", "Unknown")
+    content = data.get("content", "")
+
+    # Perform NER
+    ner = perform_ner_based_on_language(content)
+
+    message = {
+        "original_message": content,
+        "ner": ner,
+    }
+    # ส่ง JSON ตอบกลับ
+    return jsonify(message)
