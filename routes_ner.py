@@ -63,3 +63,8 @@ def text():
     }
     # ส่ง JSON ตอบกลับ
     return jsonify(message)
+
+
+@ner_bp.route('/form')
+def form():
+    return render_template('form.html')
