@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # routes/ner_routes.py
-from flask import Flask, jsonify, request, Blueprint
+from flask import Flask, jsonify, request, Blueprint, render_template
 from ner import perform_ner_based_on_language
 
 ner_bp = Blueprint('ner_bp', __name__)
