@@ -62,7 +62,7 @@ def text():
     content = data.get("content", "")
 
     # LIMIT MAX CHARACTERS
-    max_characters = 1700
+    max_characters = 1500
     limited_content = content[:max_characters]
 
     # Perform NER
