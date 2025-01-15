@@ -2,6 +2,7 @@
 # routes/ner_routes.py
 from flask import Flask, jsonify, request, Blueprint, render_template
 from ner import perform_ner_based_on_language
+from pythainlp.tokenize import word_tokenize
 
 ner_bp = Blueprint('ner_bp', __name__)
 
@@ -43,7 +44,13 @@ def test_post():
 @ner_bp.route('/text', methods=['POST'])
 def text():
     # รับ JSON จากคำขอ
-    data = request.get_json()
+    # data = request.get_json()
+
+    # รับข้อมูลจาก JSON payload หรือ Form data
+    if request.is_json:
+        data = request.get_json()
+    else:
+        data = request.form
     
     # ตรวจสอบข้อมูล
     if not data:
@@ -57,9 +64,16 @@ def text():
     # Perform NER
     ner = perform_ner_based_on_language(content)
 
+    # count token
+    # แยกคำด้วย pythainlp
+    tokens = word_tokenize(content)
+
+
+
     message = {
         "original_message": content,
         "ner": ner,
+        "num_of_words":len(tokens),
     }
     # ส่ง JSON ตอบกลับ
     return jsonify(message)
