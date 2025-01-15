@@ -26,9 +26,11 @@
             rows="6"
             class="form-control"
             oninput="countThaiCharacters()"
+            onchange="countThaiTokens()"
           ></textarea>
         </div>
         <p>จำนวนตัวอักษรภาษาไทย: <span id="charCount">0</span></p>
+        <p>จำนวนตัวคำภาษาไทย: <span id="tokenCount">0</span></p>
         <button type="submit" class="btn btn-primary w-100">Submit</button>
       </form>
     </div>
@@ -42,6 +44,36 @@
 
             // อัปเดตผลลัพธ์ใน HTML
             document.getElementById("charCount").textContent = thaiCharacters.length;
+        }
+
+        async function countThaiTokens() {
+            // ดึงค่าจาก textarea
+            const content = document.getElementById("content").value;
+            const tokenCount = document.getElementById('tokenCount');
+            let count = tokenCount.textContent;
+            try {
+                // Make a POST request using fetch
+                const response = await fetch('/ner/token/count', { // Replace with your API endpoint
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ content: content }), // Send the content as JSON
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json(); // Parse the JSON response
+                count = data.num_of_words;
+                // tokenCount.textContent = data.message || JSON.stringify(data); // Display the response in the <p> element
+            } catch (error) {
+                tokenCount.textContent = `Error: ${error.message}`; // Display error message in case of failure
+            }
+
+            // อัปเดตผลลัพธ์ใน HTML
+            tokenCount.textContent = count;
         }
     </script>
 

@@ -61,12 +61,17 @@ def text():
     # age = data.get("age", "Unknown")
     content = data.get("content", "")
 
+    # LIMIT MAX CHARACTERS
+    max_characters = 1700
+    limited_content = content[:max_characters]
+
     # Perform NER
-    ner = perform_ner_based_on_language(content)
+    ner = perform_ner_based_on_language(limited_content)
 
     # count token
     # แยกคำด้วย pythainlp
     tokens = word_tokenize(content)
+    limited_tokens = word_tokenize(limited_content)
 
 
 
@@ -74,10 +79,39 @@ def text():
         "original_message": content,
         "ner": ner,
         "num_of_words":len(tokens),
+        "num_of_characters":len(content),
+        "num_of_limited_words":len(limited_tokens),
+        "num_of_limited_characters":len(limited_content),
     }
     # ส่ง JSON ตอบกลับ
     return jsonify(message)
 
+@ner_bp.route('/token/count', methods=['POST'])
+def token_count():
+    # รับข้อมูลจาก JSON payload หรือ Form data
+    if request.is_json:
+        data = request.get_json()
+    else:
+        data = request.form
+    
+    # ตรวจสอบข้อมูล
+    if not data:
+        return jsonify({"error": "No JSON provided"}), 400
+
+    content = data.get("content", "")
+
+    
+    # count token
+    # แยกคำด้วย pythainlp
+    tokens = word_tokenize(content)
+
+    message = {
+        "original_message": content,
+        "num_of_words":len(tokens),
+    }
+
+    # ส่ง JSON ตอบกลับ
+    return jsonify(message)
 
 @ner_bp.route('/form')
 def form():
