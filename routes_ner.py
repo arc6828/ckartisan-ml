@@ -62,7 +62,7 @@ def text():
     content = data.get("content", "")
 
     # LIMIT MAX CHARACTERS
-    max_characters = 1500
+    max_characters = 1400
     limited_content = content[:max_characters]
 
     # Perform NER
@@ -72,8 +72,6 @@ def text():
     # แยกคำด้วย pythainlp
     tokens = word_tokenize(content)
     limited_tokens = word_tokenize(limited_content)
-
-
 
     message = {
         "original_message": content,
