@@ -4,11 +4,13 @@ from flask import Flask, jsonify, request
 from ner import perform_ner_based_on_language
 
 from routes_ner import ner_bp
+from routes_nlp import nlp_bp
 
 app = Flask(__name__)
 
 # Register blueprints
 app.register_blueprint(ner_bp, url_prefix='/ner')
+app.register_blueprint(nlp_bp, url_prefix='/nlp')
 
 @app.route('/')
 def home():
