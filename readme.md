@@ -14,4 +14,6 @@ https://medium.com/t-t-software-solution/%E0%B8%9A%E0%B8%B1%E0%B8%99%E0%B8%97%E0
 ## SETUP WEB
 ```
 pip install flask gunicorn
+pip install flask-cors
+
 ```
