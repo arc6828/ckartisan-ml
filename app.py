@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, jsonify, request
+from flask import Flask
 from flask_cors import CORS
 
 app = Flask(__name__)

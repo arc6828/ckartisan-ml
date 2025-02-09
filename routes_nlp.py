@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # routes/routes_nlp.py
-from flask import Flask, jsonify, request, Blueprint, render_template
+from flask import jsonify, request, Blueprint
 # from ner import perform_ner_based_on_language
 # from pythainlp.tokenize import word_tokenize
 from googletrans import Translator
