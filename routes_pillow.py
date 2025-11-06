@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, send_file, Blueprint, url_for
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 import pillow_heif
 import os
 from io import BytesIO
@@ -31,23 +31,29 @@ def upload_file():
     file = request.files['file']
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
+    
+    # Save uploaded HEIC temporarily
+    filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+    file.save(filepath)
 
-    if file and file.filename.lower().endswith('.heic'):
-        # Save uploaded HEIC temporarily
-        filepath = os.path.join(UPLOAD_FOLDER, file.filename)
-        file.save(filepath)
+    try:
 
-        
+        if file and file.filename.lower().endswith('.heic'):      
 
-        # Convert HEIC to PIL Image
-        heif_file = pillow_heif.read_heif(filepath)
+            
 
-        image = Image.frombytes(
-            heif_file.mode,
-            heif_file.size,
-            heif_file.data,
-            "raw"
-        )
+            # Convert HEIC to PIL Image
+            heif_file = pillow_heif.read_heif(filepath)
+
+            image = Image.frombytes(
+                heif_file.mode,
+                heif_file.size,
+                heif_file.data,
+                "raw"
+            )
+        else:
+            # ใช้ Pillow สำหรับไฟล์ทั่วไป (PNG, JPG, WEBP, ฯลฯ)
+            image = Image.open(filepath)
 
         # แปลงภาพเป็น RGB เพื่อให้บันทึกเป็น JPEG ได้
         image = image.convert("RGB")
@@ -73,10 +79,17 @@ def upload_file():
 
         return jsonify({
             'message': 'File converted successfully',
-            'jpeg_url': file_url
+            'jpeg_url': file_url,
+            'size': image.size,
         })
+    
+    except UnidentifiedImageError:
+        return jsonify({'error': 'Unsupported or invalid image file'}), 400
 
-    return jsonify({'error': 'File must be in HEIC format'}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+    # return jsonify({'error': 'File must be in HEIC format'}), 400
 
 
 # if __name__ == '__main__':
