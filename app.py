@@ -13,6 +13,9 @@ CORS(app)  # Enable CORS for all routes
 from routes_nlp import nlp_bp
 app.register_blueprint(nlp_bp, url_prefix='/nlp')
 
+from routes_pillow import photo
+app.register_blueprint(photo, url_prefix='/photo')
+
 @app.route('/')
 def home():
     return "Hello, Flask with Nginx!"
