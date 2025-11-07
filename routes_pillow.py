@@ -1,8 +1,10 @@
+import uuid
 from flask import Flask, make_response, request, jsonify, send_file, Blueprint, url_for, send_from_directory
 from PIL import Image, UnidentifiedImageError
 import pillow_heif
 import os
 from io import BytesIO
+import time
 
 # app = Flask(__name__)
 photo = Blueprint('photo', __name__)
@@ -75,8 +77,12 @@ def upload_file():
         MAX_SIZE = 512  # กำหนดขนาดสูงสุดของด้านที่ใหญ่ที่สุด
         image.thumbnail((MAX_SIZE, MAX_SIZE))
 
-        # Convert image -> JPEG -> Save to BytesIO or to disk
-        filename = os.path.splitext(file.filename)[0] + ".jpg"
+        # Convert image -> JPEG
+        # Save to BytesIO or to disk and use unique filename by timestamp/uuid
+        # filename = os.path.splitext(file.filename)[0] + ".jpg"
+        # Use timestamp or UUID for unique filename        
+        filename = f"{int(time.time())}_{uuid.uuid4().hex}.jpg"
+        
         output_path = os.path.join(
             # "static",
             OUTPUT_FOLDER,
@@ -88,7 +94,7 @@ def upload_file():
         # return send_file(output_path, mimetype='image/jpeg')
 
         # สร้าง URL ที่เข้าถึงไฟล์ JPEG ได้
-        file_url = url_for('photos', filename=filename, _external=True)
+        file_url = url_for('photo.uploaded_file', filename=filename, _external=True)
 
         return jsonify({
             'message': 'File converted successfully',
