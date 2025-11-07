@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file, Blueprint, url_for
+from flask import Flask, make_response, request, jsonify, send_file, Blueprint, url_for, send_from_directory
 from PIL import Image, UnidentifiedImageError
 import pillow_heif
 import os
@@ -8,9 +8,10 @@ from io import BytesIO
 photo = Blueprint('photo', __name__)
 
 UPLOAD_FOLDER = "uploads"
-OUTPUT_FOLDER = "converted"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+# OUTPUT_FOLDER = "converted"
+OUTPUT_FOLDER = "uploads"
+# os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+# os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 @photo.route('/')
 def index():
@@ -21,6 +22,18 @@ def index():
         <input type="submit" value="Upload and Convert">
     </form>
     '''
+@photo.route('/<path:filename>')
+def uploaded_file(filename):
+    # upload_dir = os.path.join(app.config['UPLOAD_FOLDER'], subdir)
+    # safe_path = os.path.abspath(os.path.join(UPLOAD_FOLDER, filename))
+
+    # ป้องกันการเข้าถึงนอกโฟลเดอร์
+    # if not safe_path.startswith(upload_dir):
+    #     abort(403)
+    # ให้แสดงไฟล์แทนการดาวน์โหลด
+    return send_from_directory(UPLOAD_FOLDER, filename, mimetype='image/jpeg')
+
+    # return send_from_directory(UPLOAD_FOLDER, filename, mimetype='image/jpeg', as_attachment=False)
 
 @photo.route('/upload', methods=['POST'])
 def upload_file():
@@ -65,7 +78,7 @@ def upload_file():
         # Convert image -> JPEG -> Save to BytesIO or to disk
         filename = os.path.splitext(file.filename)[0] + ".jpg"
         output_path = os.path.join(
-            "static",
+            # "static",
             OUTPUT_FOLDER,
             filename
         )
@@ -75,7 +88,7 @@ def upload_file():
         # return send_file(output_path, mimetype='image/jpeg')
 
         # สร้าง URL ที่เข้าถึงไฟล์ JPEG ได้
-        file_url = url_for('static', filename=OUTPUT_FOLDER+"/"+filename, _external=True)
+        file_url = url_for('photos', filename=filename, _external=True)
 
         return jsonify({
             'message': 'File converted successfully',

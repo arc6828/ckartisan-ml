@@ -10,8 +10,8 @@ CORS(app)  # Enable CORS for all routes
 # from routes_ner import ner_bp
 # app.register_blueprint(ner_bp, url_prefix='/ner')
 
-from routes_nlp import nlp_bp
-app.register_blueprint(nlp_bp, url_prefix='/nlp')
+# from routes_nlp import nlp_bp
+# app.register_blueprint(nlp_bp, url_prefix='/nlp')
 
 from routes_pillow import photo
 app.register_blueprint(photo, url_prefix='/photo')
