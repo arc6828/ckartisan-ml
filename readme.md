@@ -19,3 +19,9 @@ pip install Flask[async]
 pip install pillow pillow-heif
 
 ```
+
+## Ubuntu Permission for Upload
+```bash
+sudo chown -R www-data:www-data uploads
+sudo chmod -R 775 uploads
+```
