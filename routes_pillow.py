@@ -94,7 +94,7 @@ def upload_file():
         # return send_file(output_path, mimetype='image/jpeg')
 
         # สร้าง URL ที่เข้าถึงไฟล์ JPEG ได้
-        file_url = url_for('photo.uploaded_file', filename=filename, _external=True)
+        file_url = url_for('photo.uploaded_file', filename=filename, _scheme='https', _external=True)
 
         return jsonify({
             'message': 'File converted successfully',
