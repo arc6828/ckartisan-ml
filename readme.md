@@ -25,3 +25,17 @@ pip install pillow pillow-heif
 sudo chown -R www-data:www-data uploads
 sudo chmod -R 775 uploads
 ```
+
+
+## NGINX for Upload 
+```
+server {
+    listen 80;
+    server_name example.com;
+
+    # Set the maximum size for the request body to 50 Megabytes
+    client_max_body_size 50M;
+
+    # ... other configurations ...
+}
+```
